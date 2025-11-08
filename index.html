@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -17,12 +18,13 @@
     }
     .polaroid {
       background: white;
-      padding: 10px 10px 30px;
+      padding: 10px 10px 20px;
       border-radius: 8px;
       border: 2px solid #ddd;
       width: 280px;
       text-align: center;
       transition: transform 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
     .polaroid:hover {
       transform: scale(1.05);
@@ -30,6 +32,12 @@
     .polaroid img {
       width: 100%;
       border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .polaroid h2 {
+      margin: 0;
+      font-size: 1.5em;
+      color: #333;
     }
     .socials {
       display: flex;
@@ -55,6 +63,8 @@
   <div class="polaroid">
     <!-- FOTO PRINCIPAL -->
     <img src="https://i.imgur.com/EomoHbD.jpeg" alt="Foto de Geraldine">
+    <!-- NOMBRE DENTRO DE LA POLAROID -->
+    <h2>Geraldine</h2>
   </div>
 
   <!-- ICONOS DE REDES -->
@@ -65,7 +75,6 @@
     <a href="https://www.instagram.com/geraldine_cr07?igsh=aDllMm94Z3RrYXlu" target="_blank">
       <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
     </a>
-    <!-- TikTok lo agregaremos después -->
   </div>
 </body>
 </html>
