@@ -3,261 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Geraldine — Fotos seguras</title>
+<title>Geraldine</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--accent:#111;--glass:rgba(255,255,255,0.9)}
-  body{margin:0;padding:0;
-    background:url("https://i.imgur.com/bMWUhhk.jpg") center/cover no-repeat;
-    font-family:'Poppins',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;transition:background .5s ease}
-  .user-icon{position:fixed;top:18px;right:18px;width:46px;height:46px;border-radius:50%;cursor:pointer;z-index:100;box-shadow:0 8px 22px rgba(0,0,0,.28)}
-  .container{display:flex;flex-direction:column;align-items:center;gap:18px}
-  .polaroid{width:320px;background:var(--glass);padding:18px 18px 28px;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.28);position:relative;overflow:hidden;cursor:pointer}
-  .polaroid img{width:100%;border-radius:10px;margin-bottom:14px;position:absolute;top:0;left:0;transition:opacity .5s,transform .4s;opacity:0}
-  .polaroid img.active{opacity:1;position:relative;transform:scale(1.02)}
-  .polaroid h2{margin:0;font-size:1.4rem;color:var(--accent);position:relative;z-index:2}
-  .flash{position:absolute;inset:0;pointer-events:none;z-index:5;background:radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.25) 40%, rgba(255,255,255,0) 65%);opacity:0;transform:scale(.9);transition:opacity .25s,transform .35s}
-  .flash.show{opacity:1;transform:scale(1.05)}
-  .controls{display:flex;gap:10px;align-items:center}
-  .btn{background:var(--accent);color:#fff;padding:10px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
-  .btn.ghost{background:transparent;border:1px solid #ddd;color:var(--accent)}
-  .status{font-size:.95rem;color:#222}
-  /* modal */
-  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:300}
-  .card{background:#fff;padding:20px;border-radius:12px;width:92%;max-width:420px;box-shadow:0 15px 40px rgba(0,0,0,.35)}
-  .card input{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:8px;font-size:1rem}
-  label{font-weight:600;margin-top:10px;display:block}
-  .small{font-size:.88rem;color:#555;margin-top:8px}
-  .link{color:var(--accent);cursor:pointer;text-decoration:underline}
+  body {
+    margin: 0;
+    padding: 0;
+    background: url("https://i.imgur.com/bMWUhhk.jpg") center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    transition: background 0.5s ease;
+  }
+  .polaroid {
+    background: white;
+    padding: 10px 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .polaroid:hover {
+    transform: scale(1.05);
+  }
+  .polaroid img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s, transform 0.4s;
+    opacity: 0;
+  }
+  .polaroid img.active {
+    opacity: 1;
+    position: relative;
+    transform: scale(1.02);
+  }
+  .polaroid h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+    position: relative;
+    z-index: 2;
+  }
+  .flash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background: radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.25) 40%, rgba(255,255,255,0) 65%);
+    opacity: 0;
+    transform: scale(.9);
+    transition: opacity .25s, transform .35s;
+  }
+  .flash.show {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+  }
+  .socials a {
+    color: #333;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .socials a:hover {
+    transform: scale(1.2);
+  }
+  .socials img {
+    width: 35px;
+    height: 35px;
+  }
+  /* ICONO USUARIO */
+  #userIcon {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,.3);
+    z-index: 100;
+  }
+  /* MODAL */
+  .modal {
+    display: none;
+    position: fixed;
+    inset:0;
+    background: rgba(0,0,0,.6);
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+  }
+  .modal-content h3 {
+    margin-top: 0;
+    font-size: 1.3em;
+  }
+  .modal-content label {
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+  }
+  .modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+  }
+  .modal-content button {
+    margin-top: 15px;
+    padding: 10px 12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    background:#333;
+    color:#fff;
+  }
+  .modal-content button.close {
+    background: transparent;
+    color:#333;
+    border:1px solid #333;
+    margin-left:10px;
+  }
 </style>
 </head>
 <body>
-<img id="userIcon" class="user-icon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="usuario">
 
-<div class="container">
-  <div class="polaroid" id="polaroid">
-    <div class="flash" id="flash"></div>
-    <!-- 10 renglones para fotos -->
-    <img src="https://i.imgur.com/EomoHbD.jpeg" class="active" alt="img1">
-    <img src="https://i.imgur.com/bMWUhhk.jpg" alt="img2">
-    <img src="https://i.imgur.com/7xv7GzV.jpg" alt="img3">
-    <img src="https://i.imgur.com/0Z5L4W0.jpg" alt="img4">
-    <img src="https://i.imgur.com/lkG4L3D.jpg" alt="img5">
-    <img src="https://i.imgur.com/K9Y9TxL.jpg" alt="img6">
-    <img src="https://i.imgur.com/N1Hxk3P.jpg" alt="img7">
-    <img src="https://i.imgur.com/W9pH5jh.jpg" alt="img8">
-    <img src="https://i.imgur.com/P5l2uZV.jpg" alt="img9">
-    <img src="https://i.imgur.com/XD1wO7q.jpg" alt="img10">
-    <h2>Geraldine</h2>
-  </div>
+<!-- ICONO USUARIO -->
+<img id="userIcon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="usuario">
 
-  <div class="controls">
-    <button class="btn" id="openUpload" title="Subir imágenes">Subir / Actualizar (solo si estás logueado)</button>
-    <button class="btn ghost" id="signOutBtn" style="display:none">Cerrar sesión</button>
-    <div class="status" id="status">No autenticado</div>
+<!-- POLAROID -->
+<div class="polaroid" id="polaroid">
+  <div class="flash" id="flash"></div>
+  <img src="https://i.imgur.com/EomoHbD.jpeg" class="active" alt="img1">
+  <h2>Geraldine</h2>
+</div>
+
+<!-- ICONOS REDES -->
+<div class="socials">
+  <a href="https://youtube.com/@geraldinecorrea07?si=ZBqqyksaQtjx9JOV" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube">
+  </a>
+  <a href="https://www.instagram.com/geraldine_cr07?igsh=aDllMm94Z3RrYXlu" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+  </a>
+</div>
+
+<!-- MODAL LOGIN Y LINKS -->
+<div class="modal" id="linkModal">
+  <div class="modal-content">
+    <h3>Configurar Fotos</h3>
+    <p>Ingresa hasta 10 links de fotos para la polaroid:</p>
+    <div id="photoInputs"></div>
+    <label>Link del fondo de página:</label>
+    <input type="text" id="bgLink" placeholder="Link de fondo">
+    <button id="saveLinks">Guardar y cerrar</button>
+    <button class="close" id="closeModal">Cerrar</button>
   </div>
 </div>
 
-<!-- MODAL LOGIN -->
-<div class="modal" id="authModal">
-  <div class="card">
-    <h3 id="authTitle">Iniciar sesión</h3>
-    <input id="emailField" type="text" placeholder="Email">
-    <input id="passField" type="password" placeholder="Contraseña (mínimo 6)">
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn" id="signInBtn">Entrar</button>
-      <button class="btn ghost" id="signUpBtn">Registrar</button>
-      <button class="btn ghost" id="closeAuth">Cerrar</button>
-    </div>
-    <p class="small">Las imágenes subidas estarán protegidas y sólo tú podrás verlas/editaras.</p>
-  </div>
-</div>
-
-<!-- MODAL UPLOAD -->
-<div class="modal" id="uploadModal">
-  <div class="card">
-    <h3>Actualizar imágenes</h3>
-    <label>Fotos polaroid (hasta 10)</label>
-    <input id="photoInput" type="file" accept="image/*" multiple>
-    <label>Fondo de página</label>
-    <input id="bgInput" type="file" accept="image/*">
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn" id="saveUpload">Guardar</button>
-      <button class="btn ghost" id="closeUpload">Cerrar</button>
-    </div>
-    <p class="small">Las imágenes se suben a Firebase Storage en tu carpeta personal.</p>
-  </div>
-</div>
-
-<script type="module">
-  // ---------------------------
-  // 1) Pega tu firebaseConfig aquí
-  // ---------------------------
-  const firebaseConfig = {
-    apiKey: "REEMPLAZA_API_KEY",
-    authDomain: "REEMPLAZA_project.firebaseapp.com",
-    projectId: "REEMPLAZA_projectId",
-    storageBucket: "REEMPLAZA_projectId.appspot.com",
-    messagingSenderId: "REEMPLAZA",
-    appId: "REEMPLAZA_appId"
-  };
-
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-  import { getStorage, ref as sref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
-
-  const userIcon = document.getElementById('userIcon');
-  const authModal = document.getElementById('authModal');
-  const uploadModal = document.getElementById('uploadModal');
-  const openUpload = document.getElementById('openUpload');
-  const signInBtn = document.getElementById('signInBtn');
-  const signUpBtn = document.getElementById('signUpBtn');
-  const closeAuth = document.getElementById('closeAuth');
-  const saveUpload = document.getElementById('saveUpload');
-  const closeUpload = document.getElementById('closeUpload');
-  const signOutBtn = document.getElementById('signOutBtn');
-  const status = document.getElementById('status');
-
-  const emailField = document.getElementById('emailField');
-  const passField = document.getElementById('passField');
-  const photoInput = document.getElementById('photoInput');
-  const bgInput = document.getElementById('bgInput');
-
+<script>
   const polaroid = document.getElementById('polaroid');
   const flash = document.getElementById('flash');
-  let imgs = Array.from(polaroid.querySelectorAll('img'));
+  let imgs = [polaroid.querySelector('img')];
   let current = 0;
 
+  // Función cambio de fotos con destello
   function showFlashThenNext(){
     flash.classList.add('show');
     setTimeout(()=>{
       flash.classList.remove('show');
-      if(imgs.length===0) return;
       imgs[current].classList.remove('active');
-      current=(current+1)%imgs.length;
+      current = (current + 1) % imgs.length;
       imgs[current].classList.add('active');
-      imgs[current].style.transform='scale(1.06)';
-      setTimeout(()=> imgs[current].style.transform='scale(1.02)',180);
-    },140);
+    },150);
   }
   polaroid.addEventListener('click', showFlashThenNext);
 
-  userIcon.addEventListener('click', ()=> authModal.style.display='flex');
-  closeAuth.addEventListener('click', ()=> authModal.style.display='none');
-  closeUpload.addEventListener('click', ()=> uploadModal.style.display='none');
+  // Modal
+  const userIcon = document.getElementById('userIcon');
+  const linkModal = document.getElementById('linkModal');
+  const closeModal = document.getElementById('closeModal');
+  const saveLinks = document.getElementById('saveLinks');
+  const photoInputsDiv = document.getElementById('photoInputs');
+  const bgLink = document.getElementById('bgLink');
 
-  openUpload.addEventListener('click', ()=>{
-    const user = auth.currentUser;
-    if(!user){ authModal.style.display='flex'; return;}
-    uploadModal.style.display='flex';
-  });
+  // Crear 10 inputs para fotos
+  for(let i=0;i<10;i++){
+    const input = document.createElement('input');
+    input.type='text';
+    input.placeholder=Foto ${i+1} URL;
+    photoInputsDiv.appendChild(input);
+  }
 
-  signUpBtn.addEventListener('click', async()=>{
-    const email=emailField.value.trim(), pass=passField.value;
-    if(!email||pass.length<6){ alert('Email y contraseña (>=6)'); return;}
-    try{ await createUserWithEmailAndPassword(auth,email,pass); alert('Registrado'); authModal.style.display='none'; }
-    catch(err){alert('Error: '+err.message);}
-  });
+  userIcon.addEventListener('click',()=> linkModal.style.display='flex');
+  closeModal.addEventListener('click',()=> linkModal.style.display='none');
 
-  signInBtn.addEventListener('click', async()=>{
-    const email=emailField.value.trim(), pass=passField.value;
-    if(!email||!pass){alert('Completa email y contraseña'); return;}
-    try{ await signInWithEmailAndPassword(auth,email,pass); authModal.style.display='none'; }
-    catch(err){alert('Error: '+err.message);}
-  });
+  // Guardar links en localStorage
+  saveLinks.addEventListener('click',()=>{
+    const photoUrls = Array.from(photoInputsDiv.querySelectorAll('input')).map(i=>i.value.trim()).filter(u=>u);
+    localStorage.setItem('polaroidPhotos', JSON.stringify(photoUrls));
+    const bg = bgLink.value.trim();
+    if(bg) localStorage.setItem('bgPhoto', bg);
 
-  signOutBtn.addEventListener('click', async()=>{ await signOut(auth); });
+    // Aplicar fondo
+    if(bg) document.body.style.background = url('${bg}') center/cover no-repeat;
 
-  onAuthStateChanged(auth, async(user)=>{
-    if(user){
-      status.textContent=`Conectado: ${user.email}`;
-      signOutBtn.style.display='inline-block';
-      await loadUserImages(user.uid);
-    }else{
-      status.textContent='No autenticado';
-      signOutBtn.style.display='none';
-      loadDefaultImages();
-    }
-  });
-
-  function loadDefaultImages(){
-    imgs.forEach(i=>i.remove());
+    // Actualizar polaroid
+    imgs.forEach(img=>img.remove());
     imgs=[];
-    const defaultSrcs=[
-      'https://i.imgur.com/EomoHbD.jpeg','https://i.imgur.com/bMWUhhk.jpg','https://i.imgur.com/7xv7GzV.jpg',
-      'https://i.imgur.com/0Z5L4W0.jpg','https://i.imgur.com/lkG4L3D.jpg','https://i.imgur.com/K9Y9TxL.jpg',
-      'https://i.imgur.com/N1Hxk3P.jpg','https://i.imgur.com/W9pH5jh.jpg','https://i.imgur.com/P5l2uZV.jpg','https://i.imgur.com/XD1wO7q.jpg'
-    ];
-    defaultSrcs.forEach((src,i)=>{
-      const img=document.createElement('img');
-      img.src=src;
-      if(i===0) img.classList.add('active');
-      polaroid.insertBefore(img, polaroid.querySelector('h2'));
-      imgs.push(img);
-    });
-    current=0;
-  }
-
-  function createImgEl(src,active=false){
-    const img=document.createElement('img');
-    img.src=src;
-    if(active) img.classList.add('active');
-    polaroid.insertBefore(img, polaroid.querySelector('h2'));
-    return img;
-  }
-
-  async function loadUserImages(uid){
-    imgs.forEach(i=>i.remove()); imgs=[];
-    current=0;
-    const listRef=sref(storage,`user_images/${uid}/`);
-    try{
-      const res=await listAll(listRef);
-      const items=res.items.filter(it=> it.name!=='background.jpg');
-      if(items.length===0){loadDefaultImages();}
-      else{
-        for(let i=0;i<items.length;i++){
-          const url=await getDownloadURL(items[i]);
-          const img=createImgEl(url,i===0);
-          imgs.push(img);
-        }
-      }
-      try{
-        const bgRef=sref(storage,`user_images/${uid}/background.jpg`);
-        const bgUrl=await getDownloadURL(bgRef);
-        document.body.style.background=`url('${bgUrl}') center/cover no-repeat`;
-      }catch(e){}
-    }catch(e){loadDefaultImages();}
-  }
-
-  saveUpload.addEventListener('click', async()=>{
-    const user=auth.currentUser; if(!user){alert('Debes iniciar sesión');return;}
-    const uid=user.uid;
-    const files=photoInput.files;
-    if(files && files.length>0){
-      for(let i=0;i<files.length;i++){
-        const file=files[i];
-        const name=`polaroid_${Date.now()}_${i}_${file.name.replace(/\s/g,'_')}`;
-        const ref=sref(storage,`user_images/${uid}/${name}`);
-        await uploadBytes(ref,file);
-      }
+    if(photoUrls.length===0){
+      const defaultImg = document.createElement('img');
+      defaultImg.src='https://i.imgur.com/EomoHbD.jpeg';
+      defaultImg.classList.add('active');
+      polaroid.insertBefore(defaultImg, polaroid.querySelector('h2'));
+      imgs.push(defaultImg);
+    } else {
+      photoUrls.forEach((url,i)=>{
+        const img = document.createElement('img');
+        img.src=url;
+        if(i===0) img.classList.add('active');
+        polaroid.insertBefore(img, polaroid.querySelector('h2'));
+        imgs.push(img);
+      });
     }
-    const bg=bgInput.files[0];
-    if(bg){
-      const refBg=sref(storage,`user_images/${uid}/background.jpg`);
-      await uploadBytes(refBg,bg);
-      const urlBg=await getDownloadURL(refBg);
-      document.body.style.background=`url('${urlBg}') center/cover no-repeat`;
-    }
-    await loadUserImages(uid);
-    uploadModal.style.display='none';
-    alert('Imágenes guardadas de forma segura.');
+
+    linkModal.style.display='none';
   });
 
-  loadDefaultImages();
+  // Cargar localStorage al iniciar
+  window.addEventListener('load',()=>{
+    const storedPhotos = JSON.parse(localStorage.getItem('polaroidPhotos'));
+    const storedBg = localStorage.getItem('bgPhoto');
+    if(storedBg) document.body.style.background = url('${storedBg}') center/cover no-repeat;
+    if(storedPhotos && storedPhotos.length>0){
+      imgs.forEach(img=>img.remove());
+      imgs=[];
+      storedPhotos.forEach((url,i)=>{
+        const img = document.createElement('img');
+        img.src=url;
+        if(i===0) img.classList.add('active');
+        polaroid.insertBefore(img, polaroid.querySelector('h2'));
+        imgs.push(img);
+      });
+    }
+  });
 </script>
+
 </body>
 </html>
